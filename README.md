@@ -1,43 +1,87 @@
-# 🌐 BFHL Neural Grid | Hierarchy Graph API
+# ⚡ Synapse Parser | BFHL Neural Grid
 
-A high-performance Full-Stack Graph Analysis Dashboard built for the Bajaj Full Stack Engineering Challenge. This system interfaces with a secure Node.js REST API to process complex hierarchical data strings, detect pure cycles, and visualize multi-tree hierarchies.
+> A high-performance full-stack graph analysis dashboard built for the **Bajaj Finserv Health Full-Stack Engineering Challenge**. Synapse Parser interfaces with a secure Node.js REST API to process directed edge strings, construct multi-tree hierarchies, detect pure cycles using DFS, and visualize the results in a retro-terminal CRT aesthetic UI.
 
-### 🔗 Live Transmissions
-* **Frontend Dashboard (Vercel):** [https://your-frontend-url.vercel.app](https://your-frontend-url.vercel.app)
-* **Backend Core API (Render):** [https://your-backend-url.onrender.com](https://your-backend-url.onrender.com)
+---
+
+### 🔗 Live Deployments
+
+| Layer | Platform | URL |
+|---|---|---|
+| 🖥️ Frontend Dashboard | Vercel | [bfhl-hierarchy-graph-api-visualizer.vercel.app](https://bfhl-hierarchy-graph-api-visualizer.vercel.app) |
+| ⚙️ Backend REST API | Render | [bfhl-hierarchy-graph-api-visualizer.onrender.com](https://bfhl-hierarchy-graph-api-visualizer.onrender.com) |
+| 📦 GitHub (Original) | GitHub | [BFHL-Hierarchy-Graph-API-Visualizer](https://github.com/joshuahanielgts/BFHL-Hierarchy-Graph-API-Visualizer) |
+| 📦 GitHub (Rebranded) | GitHub | [Synapse_Parser](https://github.com/joshuahanielgts/Synapse_Parser) |
+
+---
+
+## 👤 Candidate Information
+
+| Field | Value |
+|---|---|
+| **Name** | J Joshua Haniel |
+| **User ID** | `jjoshuahaniel_09012006` |
+| **Email** | jj9568@srmist.edu.in |
+| **Roll Number** | RA2311003040056 |
+| **Institution** | SRM Institute of Science and Technology (CSE) |
 
 ---
 
 ## ⚙️ Core Architecture & Tech Stack
 
-The architecture is split into a robust backend processing engine and a high-fidelity, retro-terminal inspired frontend visualizer.
+The system is split into a robust backend processing engine and a high-fidelity, retro-terminal inspired frontend visualizer.
 
-* **Frontend:** React, Vite / Next.js, Tailwind CSS (Terminal/CRT Aesthetic)
-* **Backend:** Node.js, Express.js, CORS
-* **Deployment:** Vercel (Client) & Render (Server)
+| Layer | Technology |
+|---|---|
+| **Frontend** | React 18, Vite, TypeScript, Tailwind CSS (CRT/Terminal aesthetic) |
+| **Backend** | Node.js, Express.js, CORS (ES Module, single-file `index.js`) |
+| **Deployment** | Vercel (Frontend) · Render (Backend) |
+| **API Contract** | `POST /bfhl` — JSON body `{ "data": [...] }` |
 
 ---
 
 ## 📡 API Specification
 
+### `GET /`
+
+Returns a health-check response confirming the API is online.
+
+```json
+{
+  "system": "BFHL Neural Grid API",
+  "status": "Online",
+  "endpoint": "POST /bfhl",
+  "message": "Send a POST request to /bfhl to initialize the pipeline.",
+  "author": "J Joshua Haniel",
+  "email": "jj9568@srmist.edu.in",
+  "roll": "RA2311003040056"
+}
+```
+
+---
+
 ### `POST /bfhl`
+
 Processes an array of directed edge strings (`X->Y`) to construct trees and identify cyclic dependencies.
 
 **Request Headers:**
-* `Content-Type: application/json`
+```
+Content-Type: application/json
+```
 
 **Request Body:**
 ```json
 {
   "data": ["A->B", "A->C", "B->D", "C->E", "E->F"]
 }
-Response Schema:
+```
 
-JSON
+**Response Schema:**
+```json
 {
-  "user_id": "joshuahaniel_DDMMYYYY",
+  "user_id": "jjoshuahaniel_09012006",
   "email_id": "jj9568@srmist.edu.in",
-  "college_roll_number": RA2311003040056,
+  "college_roll_number": "RA2311003040056",
   "hierarchies": [
     {
       "root": "A",
@@ -56,40 +100,112 @@ JSON
     "largest_tree_root": "A"
   }
 }
-🧠 Algorithmic Execution Rules
-Validation & Sanitization: Trims whitespace and strictly enforces the $X->Y$ uppercase schema. Invalid formats (e.g., self-loops, lowercase) are segregated into invalid_entries.
+```
 
-Duplicate Edge Handling: If an edge repeats, the primary occurrence is executed; subsequent occurrences are pushed to duplicate_edges. Multi-parent conflicts are resolved by prioritizing the first-encountered parent.
+**Cycle example:**
+```json
+{
+  "root": "X",
+  "tree": {},
+  "has_cycle": true
+}
+```
 
-Cycle Detection (DFS): Utilizes Depth-First Search with recursion stack tracking. Cyclic groups forfeit their depth metric and return has_cycle: true with an empty {} tree structure.
+---
 
-Root Resolution: Roots are mathematically defined as nodes completely absent from the child matrix. Pure cyclic groups default to their lexicographically smallest node as the pseudo-root.
+## 🧠 Algorithmic Execution Rules
 
-💻 Local Developer Setup
-If you wish to initialize the pipeline locally:
+| Rule | Behaviour |
+|---|---|
+| **Validation** | Trims whitespace · enforces `^[A-Z]->[A-Z]$` regex · rejects self-loops (e.g., `A->A`) · pushes failures to `invalid_entries` |
+| **Duplicate Edges** | First occurrence is accepted · all subsequent identical edges go to `duplicate_edges` |
+| **First-Parent-Wins** | If a child already has a parent, a second parent edge is discarded into `duplicate_edges` |
+| **Root Detection** | Any node never appearing as a child is a root |
+| **Cycle Root** | Pure cycle groups (no natural root) use the **lexicographically smallest** node as synthetic root |
+| **Cycle Detection** | DFS with recursion-stack tracking · back-edge hit → `has_cycle: true`, tree collapses to `{}`, no `depth` field |
+| **Depth** | Longest root-to-leaf path (leaf = depth 1) |
+| **Largest Tree Root** | Root of deepest non-cyclic tree · ties broken by lexicographically smaller root |
 
-1. Clone the Repository
+---
 
-Bash
-git clone [https://github.com/yourusername/bfhl-challenge.git](https://github.com/yourusername/bfhl-challenge.git)
-cd bfhl-challenge
-2. Initialize the Backend Engine
+## 💻 Local Developer Setup
 
-Bash
-cd backend
-npm install
-npm start
-The server will boot on port 3000.
+### Prerequisites
+```bash
+node -v    # v18+ recommended
+npm -v     # v9+
+```
 
-3. Initialize the Frontend Visualizer
+### 1. Clone the Repository
+```bash
+git clone https://github.com/joshuahanielgts/Synapse_Parser.git
+cd Synapse_Parser
+```
 
-Bash
-# Open a new terminal instance
-cd frontend # (or root, depending on your structure)
-npm install
+### 2. Install All Dependencies
+```bash
+npm install          # installs frontend (Vite/React) deps
+npm install express cors   # installs backend deps
+```
+
+### 3. Run the Backend (Express API)
+```bash
+node index.js
+# → Synapse Parser API running on http://localhost:3000
+```
+
+Test the API:
+```bash
+curl -X POST http://localhost:3000/bfhl \
+  -H "Content-Type: application/json" \
+  -d "{\"data\": [\"A->B\", \"A->C\", \"B->D\", \"hello\", \"A->B\"]}"
+```
+
+### 4. Run the Frontend (Vite React) — separate terminal
+```bash
 npm run dev
-Author: J Joshua Haniel
-Institution: SRM Institute of Science and Technology (Computer Science and Engineering)
+# → http://localhost:5173
+```
 
+---
 
-***
+## ☁️ Production Deployment
+
+### Backend → Render
+
+| Setting | Value |
+|---|---|
+| **Runtime** | Node |
+| **Build Command** | `npm install express cors` |
+| **Start Command** | `node index.js` |
+| **Environment Vars** | None required (Render injects `PORT` automatically) |
+
+### Frontend → Vercel
+
+| Setting | Value |
+|---|---|
+| **Framework** | Vite |
+| **Build Command** | `npm run build` |
+| **Output Directory** | `dist` |
+| **Backend URL** | Hardcoded in `src/pages/Index.tsx` line 6 |
+
+---
+
+## 📁 Project Structure
+
+```
+Synapse_Parser/
+├── index.js              ← Express REST API (Backend — deploy on Render)
+├── index.html            ← Vite SPA entry + SEO meta tags
+├── src/
+│   └── pages/
+│       └── Index.tsx     ← Full React UI (Synapse Parser visualizer)
+├── vercel.json           ← Vercel SPA rewrite config
+├── package.json          ← Frontend deps + scripts (type: module)
+├── HOWTORUN.md           ← Full deployment walkthrough
+└── README.md             ← This file
+```
+
+---
+
+*Built with 🧬 by J Joshua Haniel — SRM IST, Chennai*
