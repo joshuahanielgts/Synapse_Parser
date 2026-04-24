@@ -301,5 +301,5 @@ app.post("/bfhl", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`BFHL server running on http://localhost:${PORT}`);
+  console.log(`Synapse Parser API running on http://localhost:${PORT}`);
 });

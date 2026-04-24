@@ -650,7 +650,7 @@ const Index = () => {
     }
 
     const textPayload = [
-      "BFHL SYSTEM LOG EXPORT",
+      "SYNAPSE PARSER SYSTEM LOG EXPORT",
       `FILTER :: ${logFilter.toUpperCase()}`,
       `GENERATED_AT :: ${generatedAt}`,
       "",
@@ -687,17 +687,17 @@ const Index = () => {
           <span>//</span>
           <span>v0.1.4-ALPHA</span>
           <span>//</span>
-          <span>NODE :: HAWKINS-LAB</span>
+          <span>NODE :: SYNAPSE-CORE</span>
         </div>
         <h1
           className="text-3xl sm:text-5xl md:text-6xl font-display font-bold text-neon-cyan text-glow-cyan animate-glitch select-none"
-          data-text=">_ HIERARCHY GRAPH MONITOR"
+          data-text=">_ SYNAPSE PARSER"
         >
-          &gt;_ HIERARCHY GRAPH MONITOR
+          &gt;_ SYNAPSE PARSER
           <span className="inline-block ml-2 text-neon-cyan animate-blink">█</span>
         </h1>
         <div className="mt-2 text-xs text-muted-foreground">
-          // BFHL EDGE-LIST PIPELINE :: REAL-TIME GRAPH RECONSTRUCTION & CYCLE DETECTION
+          // SYNAPSE EDGE-LIST PIPELINE :: REAL-TIME GRAPH RECONSTRUCTION & CYCLE DETECTION
         </div>
 
         {data && (data.user_id || data.email_id || data.college_roll_number) && (
@@ -874,7 +874,7 @@ const Index = () => {
           <section className="mb-8">
             <div className="flex items-center gap-3 mb-4">
               <h2 className="text-lg sm:text-xl tracking-[0.25em] text-neon-cyan text-glow-cyan font-bold">
-                // HIERARCHIES
+                // SYNAPSE HIERARCHIES
               </h2>
               <div className="flex-1 h-px bg-gradient-to-r from-neon-cyan/60 to-transparent" />
               <div className="text-[10px] text-muted-foreground">
@@ -891,7 +891,7 @@ const Index = () => {
                 />
               ))}
               {(data.hierarchies ?? []).length === 0 && (
-                <div className="text-muted-foreground italic">// NO HIERARCHIES RETURNED</div>
+                <div className="text-muted-foreground italic">// NO SYNAPSE HIERARCHIES RETURNED</div>
               )}
             </div>
           </section>
@@ -978,7 +978,7 @@ const Index = () => {
 
       {/* ============================ FOOTER ============================ */}
       <footer className="mt-12 pt-4 border-t border-border/60 text-[10px] tracking-[0.3em] text-muted-foreground flex flex-wrap gap-x-6 gap-y-1">
-        <span>© HAWKINS-LAB // {new Date().getFullYear()}</span>
+        <span>© SYNAPSE-CORE // {new Date().getFullYear()}</span>
         <span>UPLINK :: SECURE</span>
         <span>SIGNAL :: <span className="text-neon-cyan">●●●●●</span></span>
         <span className="ml-auto animate-blink">_</span>
