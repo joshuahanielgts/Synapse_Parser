@@ -170,8 +170,20 @@ function dfsTree(node, adjList, visited, recStack) {
 }
 
 // ---------------------------------------------------------------------------
-// Route
+// Routes
 // ---------------------------------------------------------------------------
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    system: "BFHL Neural Grid API",
+    status: "Online",
+    endpoint: "POST /bfhl",
+    message: "Send a POST request to /bfhl to initialize the pipeline.",
+    author: "J Joshua Haniel",
+    email: "jj9568@srmist.edu.in",
+    roll: "RA2311003040056",
+  });
+});
 
 app.post("/bfhl", (req, res) => {
   const { data } = req.body || {};
