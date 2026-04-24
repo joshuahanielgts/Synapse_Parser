@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 
 // =============================================================================
-// Update this constant with your deployed endpoint.
+// Set VITE_API_URL in your Vercel environment variables dashboard.
+// e.g. VITE_API_URL=https://your-service.onrender.com
 // =============================================================================
-const API_URL = "YOUR_RENDER_URL_HERE/bfhl";
+const API_URL = `${import.meta.env.VITE_API_URL ?? ""}/bfhl`;
 
 // -----------------------------------------------------------------------------
 // Types
