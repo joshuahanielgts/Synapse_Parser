@@ -236,6 +236,64 @@ function HierarchyCard({
   );
 }
 
+function ValidationPanel({ state }: { state: ValidationState }) {
+  const config =
+    state.status === "valid"
+      ? {
+          glow: "glow-cyan",
+          accent: "text-neon-cyan text-glow-cyan",
+          border: "border-neon-cyan",
+          icon: "✓",
+          label: "VALID JSON ARRAY",
+          detail: `${state.count} ELEMENT${state.count === 1 ? "" : "S"} :: READY TO TRANSMIT`,
+        }
+      : state.status === "empty"
+        ? {
+            glow: "",
+            accent: "text-muted-foreground",
+            border: "border-border",
+            icon: "○",
+            label: "AWAITING INPUT",
+            detail: "// PASTE A JSON ARRAY OF EDGE STRINGS",
+          }
+        : state.status === "invalid-json"
+          ? {
+              glow: "glow-red",
+              accent: "text-neon-red text-glow-red",
+              border: "border-neon-red",
+              icon: "✕",
+              label: "JSON_PARSE_ERROR",
+              detail: state.reason,
+            }
+          : {
+              glow: "glow-amber",
+              accent: "text-neon-amber text-glow-amber",
+              border: "border-neon-amber",
+              icon: "!",
+              label: "SCHEMA_ERROR",
+              detail: state.reason,
+            };
+
+  return (
+    <div
+      className={`mt-3 relative bg-background/60 border ${config.border} ${config.glow} rounded p-3 overflow-hidden`}
+      role="status"
+      aria-live="polite"
+    >
+      <div className="absolute inset-0 scanlines opacity-30 pointer-events-none" />
+      <div className="relative flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span className={`text-sm font-bold ${config.accent}`}>{config.icon}</span>
+        <span className={`text-[11px] tracking-[0.25em] font-bold ${config.accent}`}>
+          [ {config.label} ]
+        </span>
+        <span className="text-[11px] text-muted-foreground break-words flex-1 min-w-0">
+          {config.detail}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 // -----------------------------------------------------------------------------
 // Main page
 // -----------------------------------------------------------------------------
